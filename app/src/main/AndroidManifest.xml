@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hoojr.myalarm" >
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.DEVICE_POWER" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+        <!--<activity-->
+            <!--android:name=".MainActivity"-->
+            <!--android:label="@string/app_name" >-->
+            <!--<intent-filter>-->
+
+            <!--</intent-filter>-->
+        <!--</activity>-->
+        <provider android:name="AlarmProvider"
+            android:authorities="com.hoojr.myalarm"
+            android:exported="false" />
+        <receiver android:name="AlarmReceiver">
+            <intent-filter>
+                <action android:name="com.hoojr.myalarm.ALARM_ALERT" />
+                <action android:name="alarm_killed" />
+                <action android:name="cancel_snooze" />
+            </intent-filter>
+        </receiver>
+        <service android:name="AlarmKlaxon"
+            android:description="@string/alarm_klaxon_service_desc"
+            >
+            <intent-filter>
+                <action android:name="com.hoojr.myalarm.ALARM_ALERT" />
+            </intent-filter>
+        </service>
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="AlarmAlertFullScreen"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.Wallpaper.NoTitleBar"
+            android:launchMode="singleInstance"
+            android:taskAffinity=""
+            android:configChanges="orientation|keyboardHidden|keyboard|navigation"/>
+
+        <activity android:name=".SetAlarm">
+
+        </activity>
+        <activity android:name="AlarmAlert"
+            android:excludeFromRecents="true"
+            android:theme="@style/alarm_alert"
+            android:launchMode="singleInstance"
+            android:taskAffinity=""
+            android:configChanges="orientation|keyboardHidden|keyboard|navigation"/>
+    </application>
+
+</manifest>
